@@ -8,7 +8,7 @@ use Filament\Tables;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
-use Filament\Forms\Components\Builder;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Builder\Block;
 use App\Filament\Resources\UserResource\Pages;
@@ -25,14 +25,20 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                Builder::make('questions')
-                    ->blocks([
-                        Block::make('general')
-                            ->fieldWrapperView('wrapper')
-                            ->schema([
-                                TextInput::make('name'),
-                            ]),
-                    ]),
+                TextInput::make('name')
+                    ->required()
+                    ->autofocus()
+                    ->placeholder('Enter your name...'),
+                TextInput::make('email')
+                    ->required()
+                    ->placeholder('Enter your email...'),
+                TextInput::make('password')
+                    ->required()
+                    ->placeholder('Enter your password...')
+                    ->confirmed(),
+                TextInput::make('password_confirmation')
+                    ->required()
+                    ->placeholder('Enter your password confirmation...'),
             ]);
     }
 
@@ -40,7 +46,12 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('name')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('email')
+                    ->sortable()
+                    ->searchable(),
             ])
             ->filters([
                 //
